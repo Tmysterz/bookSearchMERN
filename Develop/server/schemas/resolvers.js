@@ -3,6 +3,10 @@ const { signToken, AuthenticationError } = require('../utils/auth');
 
 const resolvers = {
     Query: {
+        users: async () => {
+            return User.find();
+        },
+
         user: async (parent, { userId }) => {
             return User.findOne({ _id: userId });
         },
@@ -40,6 +44,9 @@ const resolvers = {
 
             return { token, user }; 
         },
+
+        // need saveBook and removeBook double checked not sure if i should 
+        // be using bookId
 
         saveBook: async (parent, { userId, bookId }, context) => {
             if (context.user) {
