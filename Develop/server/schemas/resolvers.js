@@ -1,5 +1,6 @@
 const { User } = require('../models');
 const { signToken, AuthenticationError } = require('../utils/auth');
+const { ObjectId } = require('mongoose').Types
 
 const resolvers = {
     Query: {
@@ -8,7 +9,7 @@ const resolvers = {
         },
 
         user: async (parent, { userId }) => {
-            return User.findOne({ _id: userId });
+            return User.findOne({ _id: new ObjectId(context.user._id) });
         },
 
         saved: async (parent, args, context) => {
@@ -45,21 +46,21 @@ const resolvers = {
             return { token, user }; 
         },
 
-        // need saveBook and removeBook double checked not sure if i should 
-        // be using bookId
-
-        saveBook: async (parent, { userId, bookId }, context) => {
+        saveBook: async (parent, { bookData }, context) => {
+            console.log(context.user)
             if (context.user) {
-                return User.findOneAndUpdate(
-                    { _id: userId },
+                const user = await User.findOneAndUpdate(
+                    { _id: new ObjectId(context.user._id) },
                     {
-                        $addToSet: { book: bookId },
+                        $addToSet: { savedBooks: bookData },
                     },
                     {
                         new: true,
                         runValidators: true,
                     },
                 );
+                console.log(user)
+                return user;
             }
             throw AuthenticationError;
         },
@@ -67,9 +68,10 @@ const resolvers = {
         removeBook: async (parent, { bookId }, context) => {
             if (context.user) {
                 return User.findOneAndUpdate(
-                    { _id: context.user._id },
-                    { $pull: { book: bookId } },
-                    { new: true }
+                    { _id: new ObjectId(context.user._id) },
+                    { $pull: { savedBooks: { bookId: bookId } } },
+                    { new: true },
+                    { runValidators: true }
                 );
             }
             throw AuthenticationError;

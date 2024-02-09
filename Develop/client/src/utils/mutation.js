@@ -1,5 +1,6 @@
 import { gql } from '@apollo/client';
 
+// works correctly
 export const ADD_USER = gql`
 mutation addUser($username: String!, $email: String!, $password: String!) {
     addUser(username: $username, email: $email, password: $password) {
@@ -12,6 +13,7 @@ mutation addUser($username: String!, $email: String!, $password: String!) {
   }  
 `;
 
+// works correctly 
 export const LOGIN_USER = gql`
 mutation login($email: String!, $password: String!) {
     login(email: $email, password: $password) {
@@ -24,11 +26,10 @@ mutation login($email: String!, $password: String!) {
   }  
 `;
 
-// need this mutation double checked 
-// resolver and type def seems off
+// works correctly
 export const SAVE_BOOK = gql`
-mutation saveBook($bookId: String!, $userId: ID!) {
-    saveBook(bookId: $bookId, userId: $userId) {
+mutation saveBook($bookData: BookInfo) {
+    saveBook(bookData: $bookData) {
       _id
       username
       savedBooks {
@@ -38,8 +39,7 @@ mutation saveBook($bookId: String!, $userId: ID!) {
   }
 `;
 
-// need this mutation double checked 
-// resolver and type def seems off 
+// works correctly 
 export const REMOVE_BOOK = gql`
 mutation Mutation($bookId: String!) {
     removeBook(bookId: $bookId) {

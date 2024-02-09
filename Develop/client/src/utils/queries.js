@@ -1,5 +1,6 @@
 import { gql } from '@apollo/client';
 
+// works correctly
 export const QUERY_USERS = gql`
     query allUsers {
         users {
@@ -10,6 +11,7 @@ export const QUERY_USERS = gql`
     }
 `;
 
+// works correctly
 export const QUERY_SINGLE_USER = gql`
   query singleUser($userId: ID!) {
     user(userId: $userId) {
@@ -20,6 +22,8 @@ export const QUERY_SINGLE_USER = gql`
   }
 `;
 
+
+// works correctly
 export const QUERY_SAVED = gql`
   query saved {
     saved {
