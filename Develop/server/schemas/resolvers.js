@@ -8,11 +8,11 @@ const resolvers = {
             return User.find();
         },
 
-        user: async (parent, { userId }) => {
-            return User.findOne({ _id: new ObjectId(context.user._id) });
+        user: async (parent, args, context) => {
+            return User.findOne({ _id: context.user._id });
         },
 
-        saved: async (parent, args, context) => {
+        me: async (parent, args, context) => {
             if (context.user) {
                 return User.findOne({ _id: context.user._id });
             }

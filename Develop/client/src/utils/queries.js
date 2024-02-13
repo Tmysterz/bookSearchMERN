@@ -2,7 +2,7 @@ import { gql } from '@apollo/client';
 
 // works correctly
 export const QUERY_USERS = gql`
-    query allUsers {
+    query users {
         users {
             _id
             username
@@ -13,8 +13,8 @@ export const QUERY_USERS = gql`
 
 // works correctly
 export const QUERY_SINGLE_USER = gql`
-  query singleUser($userId: ID!) {
-    user(userId: $userId) {
+  query user {
+    user {
       _id
       username
       book
@@ -24,12 +24,22 @@ export const QUERY_SINGLE_USER = gql`
 
 
 // works correctly
-export const QUERY_SAVED = gql`
-  query saved {
-    saved {
+export const QUERY_ME = gql`
+  query me {
+    me {
       _id
-      username
-      book
+      username 
+      email
+      bookCount 
+      savedBooks{
+        _id
+        authors
+        description
+        bookId
+        image
+        link
+        title
+      }
     }
   }
 `;
