@@ -44,7 +44,6 @@ const typeDefs = `
         saveBook( bookData: BookInfo ): User
         removeBook(bookId: String!): User
     }
-
 `;
 
 module.exports = typeDefs;
